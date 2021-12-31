@@ -1,2 +1,2 @@
 # PeetCode
-LeetCode solutions
+Leetcode solutions
