@@ -11,28 +11,47 @@
  */
 class Solution {
 public:
-    map<int, map<int,vector<int>>> mp;
-    void dfs(TreeNode* root, int row, int col) {
+    map<int,vector<int>> mp; //col, vector of values corrsponding to particular column
+    void helper(TreeNode *root) {
         if(root == NULL) {
             return ;
         }
         
-        mp[col][row].push_back(root->val);
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 0});
+        int minn = INT_MAX;
+        int maxx = INT_MIN;
         
-        dfs(root->left, row+1, col-1);
-        dfs(root->right, row+1, col+1);
+        while(!q.empty()) {
+            int size = q.size();
+            while(size-- > 0) {
+                size--;
+                
+                pair front = q.front();
+                q.pop();
+                
+                minn = min(minn, front.second);
+                maxx = min(maxx, front.second);
+                
+                if(front.first->left) {
+                    q.push({front.first->left, front.second-1});
+                }
+                
+                if(front.first->right) {
+                    q.push({front.first->right, front.second+1});
+                }
+                
+                mp[front.second].push_back(front.first->val);
+            }
+        }
     }
     vector<vector<int>> verticalOrder(TreeNode* root) {
-        dfs(root, 0, 0);
-        
-        //now convert map into answer format vector of vector
+        helper(root);
         vector<vector<int>> ans;
-        for(auto m1 : mp) {
+        for(auto x : mp) {
             vector<int> a;
-            for(auto m2 : m1.second) {
-                for(auto x : m2.second) {
-                    a.push_back(x);
-                }
+            for(auto f : x.second) {
+                a.push_back(f);
             }
             ans.push_back(a);
         }
