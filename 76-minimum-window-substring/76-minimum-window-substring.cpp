@@ -17,7 +17,7 @@ public:
         int mc = 0;
         int olen = INT_MAX;
         
-        int slen = s.length()-1;
+        int slen = s.length();
         int tlen = t.length();
         
         while(i < slen) {
