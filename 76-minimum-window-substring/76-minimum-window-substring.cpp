@@ -22,12 +22,8 @@ public:
         
         while(i < slen) {
             // cout << "whiile1" << endl;
-            bool flag1 = false;
-            bool flag2 = false;
             
             while(i < slen && mc < tlen) {
-                
-                flag1 = true;
                 ++i;
                 s_map[s[i]]++;
                 if(t_map[s[i]] > 0 && s_map[s[i]] <= t_map[s[i]]) {
@@ -39,7 +35,6 @@ public:
             cout << "mc = " << mc << " i = " << i << endl;
             
             while(mc == tlen && j < i) {
-                flag2 = true;
                 int len = i - j;
                 if(len < olen) {
                     olen = len;
@@ -53,10 +48,6 @@ public:
                 if(t_map[s[j]] > 0 && s_map[s[j]] < t_map[s[j]]) {
                     mc--;
                 }
-            }
-            
-            if(!flag1 && !flag2) {
-                break;
             }
         }
         cout << start << " " << end << endl;
