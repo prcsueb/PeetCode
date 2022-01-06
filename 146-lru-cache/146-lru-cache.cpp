@@ -16,17 +16,18 @@ public:
     Node *tail = new Node(-1,-1);
     
     void addFirst(Node *node) {
-        node->next = head->next;
+        Node *nei = head->next;
+        node->next = nei;
         node->prev=head;
-        head->next->prev = node;
+        nei->prev = node;
         head->next = node;
     }
     
     void removeNode(Node *node) {
         Node *prevNei = node->prev;
         Node *nextNei = node->next;
-        node->prev->next = node->next;
-        node->next->prev = node->prev;
+        prevNei->next = nextNei;
+        nextNei->prev = prevNei;
         node->prev=node->next=NULL;
     }
     
@@ -58,7 +59,6 @@ public:
             if(cache.size() == cap) {
                 Node *LRU_node = tail->prev;
                 removeNode(LRU_node);
-                cout << cache.size() << endl;
                 cache.erase(cache.find(LRU_node->key));
             } 
             cache[key]=newNode;
