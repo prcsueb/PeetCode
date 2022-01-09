@@ -10,14 +10,12 @@
  *     NestedInteger(int value);
  *
  *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
- *     bool isInteger(n) const;
- *ans = ans + 
+ *     bool isInteger() const;
+ *
  *     // Return the single integer that this NestedInteger holds, if it holds a single integer
  *     // The result is undefined if this NestedInteger holds a nested list
- *     int getInteger(n) const; * depth;
- * else {
- 
- }
+ *     int getInteger() const;
+ *
  *     // Set this NestedInteger to hold a single integer.
  *     void setInteger(int value);
  *
@@ -31,19 +29,18 @@
  */
 class Solution {
 public:
-    
     int dfs(vector<NestedInteger>& nestedList, int depth) {
         int ans = 0;
-        for(auto n : nestedList) {
-            if(n.isInteger()) {
-                ans = ans + n.getInteger() * depth;
+        for(auto x : nestedList) {
+            if(x.isInteger() == true) {
+                ans += x.getInteger() * depth;
             } else {
-                ans += dfs(n.getList(), depth+1);
+                ans += dfs(x.getList(), depth+1);
             }
         }
         return ans;
     }
     int depthSum(vector<NestedInteger>& nestedList) {
-        return dfs(nestedList, 1);
+        return dfs(nestedList,1);
     }
 };
