@@ -1,48 +1,48 @@
 class Solution {
 public:
     int calculate(string s) {
-        stack<long long> stk;
-        char sign = '+';
-        
         long long slen = s.length();
-        for(long long i=0;i<slen;i++) {
-            //1.get value
+        char sign = '+';
+        stack<long long> stk;
+        for(int i=0;i<slen;i++) {
+            //if digit else sign no other option
+            if(s[i] == ' ') {
+                continue;
+            }
             if(s[i] >= '0' && s[i] <= '9') {
-                //get whole value until found something other than digit
                 long long val = 0;
                 while(i < slen && s[i] >= '0' && s[i] <= '9') {
-                    val = val * 10 + s[i] - '0';
+                    val = val*10+s[i]-'0';
                     i++;
                 }
-                
-                --i;
-                if(sign == '+') {
-                    stk.push(val);
-                } else if(sign == '-') {
-                    stk.push(-val);
-                } else if(sign == '*') {
-                    long long x = stk.top();
+                i--;
+                if(sign == '*') {
+                    long long top = stk.top();
                     stk.pop();
-                    stk.push(x * val);
+                    long long newVal = val * top;
+                    stk.push(newVal);
                 } else if(sign == '/') {
-                    int x = stk.top();
+                    long long top = stk.top();
                     stk.pop();
-                    stk.push(x / val);
+                    long long newVal = top / val;
+                    stk.push(newVal);
+                } else {
+                    if(sign == '+') {
+                        stk.push(val);
+                    } else {
+                        stk.push(-val);
+                    }
                 }
-            } else if(s[i] == ' ') {
-                continue;
             } else {
-                //2.get sign
                 sign = s[i];
-            }   
+            }
         }
         
-        long long sum = 0;
+        long long ans = 0;
         while(!stk.empty()) {
-            cout << stk.top() << " , ";
-            sum += stk.top(); stk.pop();
+            ans += stk.top();
+            stk.pop();
         }
-        
-        return sum;
+        return ans;
     }
 };
