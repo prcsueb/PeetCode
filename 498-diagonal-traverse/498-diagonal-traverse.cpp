@@ -1,46 +1,40 @@
 class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
-        int rowLen = mat.size();
-        int colLen = mat[0].size();
+        int m=mat.size();
+        int n=mat[0].size();
         vector<int> ans;
-        
-        if(rowLen==0 && colLen==0) {
-            return ans;
-        }
-        
         int row=0,col=0;
-        bool up = true;
-        while(row>=0 && row<rowLen && col>=0 && col<colLen) {
-            if(up) {
-                while(row > 0 && col < colLen-1) {
+        bool up=true;
+        while(row<m && col<n) {
+            if(up == true) {
+                while(row>0 && col<n-1) {
                     ans.push_back(mat[row][col]);
                     row--;
                     col++;
                 }
-                //if col is last col
                 ans.push_back(mat[row][col]);
-                if(col == colLen-1) {
+                if(col == n-1) {
                     row++;
                 } else {
-                     col++;
+                    col++;
                 }
+                up = false;
             } else {
-                while(row < rowLen-1 && col > 0) {
+                while(row<m-1 && col>0) {
                     ans.push_back(mat[row][col]);
                     row++;
                     col--;
                 }
                 ans.push_back(mat[row][col]);
-                if(row == rowLen-1) {
+                if(row == m-1) {
                     col++;
                 } else {
                     row++;
                 }
+                up = true;
             }
-            up=!up;
         }
-        
         return ans;
     }
 };
