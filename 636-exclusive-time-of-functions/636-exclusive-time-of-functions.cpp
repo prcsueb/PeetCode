@@ -1,40 +1,38 @@
 class Solution {
 public:
-    struct Log {
+    struct Log{
         int id;
         int start;
         int child;
     };
     vector<int> exclusiveTime(int n, vector<string>& logs) {
-        //store execuition time of each function
-        vector<int> timeF(n);
+        vector<int> ans(n);
         stack<Log> stk;
-        
-        for(string log : logs) {
-            //extract starting time, status and ending time
-            stringstream ss(log);
-            
-            string startTime,status,endTime;
-            getline(ss,startTime,':');
+        for(int i=0;i<logs.size();i++) {
+            stringstream ss(logs[i]);
+            //convert stream and extract startTime,status,endTIme
+            string id,status,startTime;
+            getline(ss,id,':');
             getline(ss,status,':');
-            getline(ss,endTime,':');
+            getline(ss,startTime,':');
             
-            Log item = {stoi(startTime),stoi(endTime),0};//using struct
-            
+            //create strucutre out of it
+            Log l = {stoi(id),stoi(startTime),0};
             if(status == "start") {
-                stk.push(item);
+                stk.push(l);
             } else {
-                //ending 
-                Log top = stk.top();
+                //if it's ending time then calculate interval with and without interval
+                //with child will be pushed to ans vector we add not override answer
+                //without child will be pushed to child of top of the stack
+                int intervalWithChild = stoi(startTime) - stk.top().start - stk.top().child + 1;
+                int interval = stoi(startTime) - stk.top().start + 1;
+                ans[stk.top().id] += intervalWithChild;
                 stk.pop();
-                int interval = stoi(endTime) - top.start + 1;
-                int timeOfExe = interval - top.child;
-                timeF[top.id]+=timeOfExe;
-                if(stk.size() > 0) {
-                    stk.top().child+=interval;
+                if(!stk.empty()) {
+                    stk.top().child += interval;
                 }
             }
         }
-        return timeF;
+        return ans;
     }
 };
