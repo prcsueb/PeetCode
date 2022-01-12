@@ -12,7 +12,7 @@ class Solution {
         }
         while(lo <= hi){
             while(lo < hi && nums[lo] == nums[hi]) {
-                hi--;
+                lo++;
             }
             int mid = (lo+hi)/2;
             if(nums[lo] == target || nums[hi] == target || nums[mid] == target){
