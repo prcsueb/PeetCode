@@ -5,6 +5,9 @@ public:
         int m=mat[0].size();
         int low=0;
         int high=(n*m)-1;
+        //note : 7 is always > 10
+        // 20 > 23
+        //last cell of any row is greater then first cell of the next row is always true
         while(low<=high) {
             int mid = low+(high-low)/2;
             int row=mid/m;
