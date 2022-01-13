@@ -1,66 +1,51 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        if(t.length() > s.length()) {
+        int slen=s.length();
+        int tlen=t.length();
+        if(tlen>slen) {
             return "";
         }
-        map<char,int> t_map;
-        for(int i=0;i<t.size();i++) {
-            t_map[t[i]]++;
-        }
-        
-        map<char,int> s_map;
-        int start = -1;
-        int end = -1;
         int i=-1;
         int j=-1;
-        int mc = 0;
-        int olen = INT_MAX;
-        
-        int slen = s.length();
-        int tlen = t.length();
-        
-        while(i < slen) {
-            // cout << "whiile1" << endl;
-            
-            while(i < slen && mc < tlen) {
+        int matchCount=0;
+        map<char,int> smap;
+        map<char,int> tmap;
+        int start=-1;
+        int end=-1;
+        int ans=INT_MAX;
+        for(int i=0;i<tlen;i++) {
+            tmap[t[i]]++;
+        }
+        while(i<slen) {
+            while(i<slen && matchCount<tlen) {
                 ++i;
-                s_map[s[i]]++;
-                if(t_map[s[i]] > 0 && s_map[s[i]] <= t_map[s[i]]) {
-                    // cout << mc << endl;
-                    cout << s[i] << " , ";
-                    mc++;
+                smap[s[i]]++;
+                if(tmap[s[i]] > 0 && smap[s[i]]<=tmap[s[i]]) {
+                    matchCount++;
                 }
-            }
-            cout << "mc = " << mc << " i = " << i << endl;
-            
-            while(mc == tlen && j < i) {
-                int len = i - j;
-                if(len < olen) {
-                    olen = len;
-                    start = j+1;
-                    end = i;
-                    cout << "len = "  << len << " olen = " << olen << endl;
+            }   
+            while(matchCount==tlen && j<i) {
+                int len = i-j;
+                if(len<ans) {
+                    ans=len;
+                    end=i;
+                    start=j+1;
                 }
                 ++j;
-                
-                s_map[s[j]]--;
-                if(t_map[s[j]] > 0 && s_map[s[j]] < t_map[s[j]]) {
-                    mc--;
+                smap[s[j]]--;
+                if(tmap[s[j]] > 0 && smap[s[j]]<tmap[s[j]]) {
+                    matchCount--;
                 }
             }
         }
-        cout << start << " " << end << endl;
-        if(start == -1 && end == -1) {
+        if(start==-1 && end==-1) {
             return "";
         }
-        
-        string ans = "";
+        string ansString="";
         for(int x=start;x<=end;x++) {
-            ans += s[x];
+            ansString += s[x];
         }
-        
-        
-        return ans;
+        return ansString;
     }
 };
