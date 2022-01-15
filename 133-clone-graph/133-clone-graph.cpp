@@ -21,29 +21,24 @@ public:
 
 class Solution {
 public:
-    map<Node*,Node*> mp;
-    Node* cloneGraph(Node* node) {
-        if(node==NULL) return node;
-        
-        Node *copyNode = new Node(node->val, {});
-        mp[node]=copyNode;
-        
-        queue<Node*> q;
-        q.push(node);
-        
-        while(!q.empty()) {
-            Node *front = q.front();
-            q.pop();
-            for(Node *nei : front->neighbors) {
-                if(mp.find(nei) == mp.end()) {
-                    Node *cloneNode = new Node(nei->val, {});
-                    mp[nei]=cloneNode;
-                    q.push(nei);
-                }
-                mp[front]->neighbors.push_back(mp[nei]);
+    void dfs(Node* node, Node *copyNode, vector<Node*> &visited) {
+        visited[copyNode->val]=copyNode;
+        for(auto x : node->neighbors) {
+            if(visited[x->val]==NULL) {
+                Node *newNode = new Node(x->val);
+                copyNode->neighbors.push_back(newNode);
+                dfs(x,newNode,visited);
+            } else {
+                copyNode->neighbors.push_back(visited[x->val]);
             }
         }
-        
+    }
+    
+    Node* cloneGraph(Node* node) {
+        if(node==NULL)return node;
+        Node *copyNode = new Node(node->val);
+        vector<Node*> visited(1000,NULL);
+        dfs(node,copyNode,visited);
         return copyNode;
     }
 };
