@@ -21,7 +21,7 @@ public:
 
 class Solution {
 public:
-    void dfs(Node* node, Node *copyNode, vector<Node*> &visited) {
+    void dfs(Node* node, Node *copyNode, map<int,Node*> &visited) {
         visited[copyNode->val]=copyNode;
         for(auto x : node->neighbors) {
             if(visited[x->val]==NULL) {
@@ -37,7 +37,7 @@ public:
     Node* cloneGraph(Node* node) {
         if(node==NULL)return node;
         Node *copyNode = new Node(node->val);
-        vector<Node*> visited(1000,NULL);
+        map<int,Node*> visited;
         dfs(node,copyNode,visited);
         return copyNode;
     }
