@@ -14,10 +14,10 @@ public:
             }
             
             if(leftMax < rightMax) {
-                ans += max(0, leftMax - height[left]);
+                ans += leftMax - height[left];
                 left++;
             } else {
-                ans += max(0, rightMax - height[right]);
+                ans += rightMax - height[right];
                 right--;
             }
         }
