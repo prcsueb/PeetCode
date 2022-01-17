@@ -1,44 +1,40 @@
 class Solution {
 public:
-    bool canBeAns(vector<int>& weights, int mid, int days) {
-        int d = 1;
-        int sum = 0;
+    bool canDivide(vector<int>& weights, int days, int mid) {
+        int d=1;
+        int sum=0;
         for(int i=0;i<weights.size();i++) {
-            sum += weights[i];
-            if(sum > mid) {
+            sum+=weights[i];
+            if(sum>mid) {
                 d++;
-                sum = weights[i];
+                sum=weights[i];
             }
         }
-        
-        return d <= days; //jitne din lag rhe hai usse kam hai then it's possible otherwise return false
+        if(d > days) {
+            return false;
+        }
+        return true;
     }
     int shipWithinDays(vector<int>& weights, int days) {
-        int maxx = 0;
-        int sum = 0;
-        
+        int sum=0;
+        int low=0;
         for(int i=0;i<weights.size();i++) {
-            sum += weights[i];
-            maxx = max(maxx, weights[i]);
+            sum+=weights[i];
+            low=max(low,weights[i]);
         }
         
-        if(weights.size() == days) {
-            return maxx;
-        }
-        
-        int low = maxx;
-        int high = sum;
-        int ans = INT_MAX;
-        while(low <= high) {
-            int mid = (low+high)/2;
-            if(canBeAns(weights,mid,days)) {
-                ans = min(ans, mid);
+        int high=sum;
+        int ans=0;
+        while(low<=high) {
+            int mid=low+(high-low)/2;
+            bool canD = canDivide(weights,days,mid);
+            if(canD) {
                 high=mid-1;
+                ans=mid;
             } else {
-                low = mid+1;
+                low=mid+1;
             }
         }
-        
         return ans;
     }
 };
