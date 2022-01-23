@@ -1,26 +1,29 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum2(vector<int>& nums, int target) {
-        vector<vector<int>> list;
-        vector<int> tempList;
-        sort(nums.begin(),nums.end());
-        backtracking(list,tempList,nums,0,target);
-        return list;
-    }
-    void backtracking(vector<vector<int>> &list, vector<int> &tempList, vector<int> &nums, int start, int target) {
-        if(target<0) {
+    vector<vector<int>> ans;
+    void helper(vector<int>& can, int tar, vector<int> &sub, int idx) {
+        if(tar == 0) {
+            ans.push_back(sub);
             return;
         }
-        else if(target==0) {
-            list.push_back(tempList);
-        }
-        else {
-            for(int i=start;i<nums.size();i++) {
-                if(i>start && nums[i]==nums[i-1]) continue;
-                tempList.push_back(nums[i]);
-                backtracking(list,tempList,nums,i+1,target-nums[i]);
-                tempList.pop_back();
+        for(int i=idx;i<can.size();i++) {
+            if(i > idx && can[i]==can[i-1]) {
+                continue;
+            }
+            if(can[i] <= tar) {
+                sub.push_back(can[i]);
+                helper(can,tar-can[i],sub,i+1);
+                sub.pop_back();
+            } else {
+                break;
             }
         }
+        return;
+    }
+    vector<vector<int>> combinationSum2(vector<int>& can, int tar) {
+        vector<int> sub;
+        sort(can.begin(),can.end());
+        helper(can,tar,sub,0);
+        return ans;
     }
 };
