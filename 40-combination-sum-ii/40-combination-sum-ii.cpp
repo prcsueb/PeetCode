@@ -6,17 +6,13 @@ public:
             ans.push_back(sub);
             return;
         }
-        for(int i=idx;i<can.size();i++) {
+        for(int i=idx;i<can.size() && can[i] <= tar;i++) {
             if(i > idx && can[i]==can[i-1]) {
                 continue;
             }
-            if(can[i] <= tar) {
-                sub.push_back(can[i]);
-                helper(can,tar-can[i],sub,i+1);
-                sub.pop_back();
-            } else {
-                break;
-            }
+            sub.push_back(can[i]);
+            helper(can,tar-can[i],sub,i+1);
+            sub.pop_back();
         }
         return;
     }
