@@ -30,36 +30,37 @@ public:
     
     int searchWord(vector<vector<char>>& board, int i, int j, vector<vector<bool>> &visited, string &str, TrieNode *root, vector<vector<int>> &dir, vector<string> &result) {
         char ch = board[i][j];
-        if(root->children[ch-'a'] == NULL) {
+        
+        if(root->children[ch-'a']==NULL) {
             return 0;
         }
         
-        root = root->children[ch-'a'];
+        root=root->children[ch-'a'];
+        
         if(root->frequency == 0) {
             return 0;
         }
         
-        visited[i][j] = true;
-        
-        int count = 0;
+        visited[i][j]=true;
+        int count=0;
         str.push_back(ch);
         if(root->isEnd == true) {
-            result.push_back(str);
             root->isEnd = false;
-            count = 1;
+            count=1;
+            result.push_back(str);
         }
         
         for(auto d : dir) {
-            int newRow = i + d[0];
-            int newCol = j + d[1];
-            if(newRow >= 0 && newCol >= 0 && newRow < board.size() && newCol < board[0].size() && visited[newRow][newCol]==false) {
-                 count += searchWord(board,newRow,newCol,visited,str,root,dir,result);
+            int newRow = i+d[0];
+            int newCol = j+d[1];
+            if(newRow >= 0 && newCol >= 0 && newRow < board.size() && newCol < board[0].size() && visited[newRow][newCol] == false) {
+                count += searchWord(board,newRow,newCol,visited,str,root,dir,result);
             }
         }
         
         visited[i][j]=false;
-        str.pop_back();
         root->frequency-=count;
+        str.pop_back();
         return count;
     }
     
