@@ -28,16 +28,17 @@ public:
         ptr->str=word;
     }
     vector<string> result;
+    
     void search2(TrieNode *curr, TrieNode *nWord) {
         if(curr->isEnd==true && nWord->isEnd==true) {
             result.push_back(curr->str);
-            curr->isEnd = false;
+            curr->isEnd=false;
         }
         if(nWord->isEnd==true) {
-            search2(curr, root);
+            search2(curr,root);
         }
         for(int i=0;i<26;i++) {
-            if(curr->children[i]!=NULL && nWord->children[i]!=NULL) {
+            if(curr->children[i] != NULL && nWord->children[i] != NULL) {
                 search2(curr->children[i],nWord->children[i]);
             }
         }
@@ -47,7 +48,6 @@ public:
         if(curr->isEnd == true) {
             search2(curr,root);
         }
-        
         for(int i=0;i<26;i++) {
             if(curr->children[i] != NULL) {
                 search1(curr->children[i]);
