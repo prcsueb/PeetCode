@@ -1,12 +1,15 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        map<int,int> mp;//{sum,index}
+        int sum=0;
+        map<int,int> mp;
+        int ans=0;
         mp[0]=1;
-        int sum = 0;int ans=0;
         for(int i=0;i<nums.size();i++) {
-            sum += nums[i];
-            ans += mp[sum-k];
+            sum+=nums[i];
+            if(mp[sum-k]>0) {
+                ans+=mp[sum-k];
+            }
             mp[sum]++;
         }
         return ans;
