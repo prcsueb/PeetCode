@@ -15,8 +15,7 @@ public:
         int max_profit = INT_MIN;
         for(int i=n-1;i>=0;i--) {
             maxVal = max(maxVal, prices[i]);
-            int todays_profit = maxVal - prices[i];
-            max_profit = max(max_profit, dp[i] + todays_profit);
+            max_profit = max(max_profit, dp[i] + maxVal - prices[i]);
         }
         
         return max_profit;
