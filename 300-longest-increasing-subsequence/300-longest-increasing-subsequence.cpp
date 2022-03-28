@@ -4,6 +4,7 @@ public:
         int n=nums.size();
         vector<int> dp(n, 0);
         dp[0]=1;
+        int ans=1;
         for(int i=1;i<n;i++) {
             int maxx=0;
             for(int j=i-1;j>=0;j--) {
@@ -12,12 +13,9 @@ public:
                 }
             }
             dp[i] = maxx + 1;
+            ans = max(ans, dp[i]);
         }
         
-        int ans=1;
-        for(auto x : dp) {
-            ans = max(ans, x);
-        }
         return ans;
     }
 };
