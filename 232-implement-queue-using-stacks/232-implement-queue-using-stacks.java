@@ -18,16 +18,13 @@ class MyQueue {
     }
     
     public int pop() {
-        int x = 0;
         if(empty()) return 0;
-        else {
-            if(!out.isEmpty()) {
-                x = out.pop();
-                return x;
-            } else if(!in.isEmpty() && out.isEmpty()) {
-                transfterInToOut();
-                x = out.pop();
-            }
+        int x = 0;
+        if(!out.isEmpty()) {
+            x = out.pop();
+        } else if(!in.isEmpty() && out.isEmpty()) {
+            transfterInToOut();
+            x = out.pop();
         }
         return x;
     }
@@ -35,17 +32,16 @@ class MyQueue {
     public int peek() {
         if(empty()) {
             return 0;
-        } else {
-            int x = 0;
-            if(!out.isEmpty()) {
-                x = out.peek();
-                return x;
-            }
-            else if(!in.isEmpty() && out.isEmpty()) {
-                transfterInToOut();
-                x = out.peek();
-                return x;
-            }
+        }
+        int x = 0;
+        if(!out.isEmpty()) {
+            x = out.peek();
+            return x;
+        }
+        else if(!in.isEmpty() && out.isEmpty()) {
+            transfterInToOut();
+            x = out.peek();
+            return x;
         }
         return 0;
     }
