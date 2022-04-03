@@ -10,6 +10,7 @@ class Solution {
             if(nums[mid] == tar) {
                 high = mid-1;
                 ans = mid;
+                if(mid > 0 && nums[mid-1] != tar) return mid;
             } else if(nums[mid] > tar) {
                 high = mid - 1;
             } else {
@@ -30,6 +31,7 @@ class Solution {
             if(nums[mid] == tar) {
                 low = mid+1;
                 ans = mid;
+                if(mid+1 < nums.length && nums[mid+1] != tar) return mid;
             } else if(nums[mid] > tar) {
                 high = mid - 1;
             } else {
