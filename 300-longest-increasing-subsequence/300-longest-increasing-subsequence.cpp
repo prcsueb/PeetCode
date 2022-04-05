@@ -12,8 +12,6 @@ public:
             } else {
                 int low = 0;
                 int high = ans.size() - 1;
-                cout <<"low =" << low << endl;
-                cout <<"high =" << high << endl;
                 int correctPlace = high;
                 while(low <= high) {
                     int mid = low + (high - low) / 2;
