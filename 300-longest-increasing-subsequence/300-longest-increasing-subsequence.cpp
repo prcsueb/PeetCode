@@ -22,14 +22,8 @@ public:
                         low = mid + 1;
                     }
                 }
-                cout <<"correctPlace =" << correctPlace << endl;
-                cout << "\n";
                 ans[correctPlace] = nums[i];
             }
-        }
-        cout << "\n";
-        for(auto x : ans) {
-            cout << x << ",";
         }
         return ans.size();
     }
