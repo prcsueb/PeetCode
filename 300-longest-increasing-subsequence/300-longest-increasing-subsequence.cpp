@@ -1,20 +1,38 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        vector<int> dp(n, 0);
-        dp[0]=1;
-        int ans=1;
-        for(int i=1;i<n;i++) {
-            for(int j=i-1;j>=0;j--) {
-                if(nums[i] > nums[j]) {
-                    dp[i] = max(dp[i], dp[j]);
-                }
-            }
-            dp[i]++;
-            ans = max(ans, dp[i]);
-        }
+        int n = nums.size();
+        vector<int> ans;
+        ans.push_back(nums[0]);
         
-        return ans;
+        for(int i=1;i<n;i++) {
+            int last = ans.back();
+            if(nums[i] > last) {
+                ans.push_back(nums[i]);
+            } else {
+                int low = 0;
+                int high = ans.size() - 1;
+                cout <<"low =" << low << endl;
+                cout <<"high =" << high << endl;
+                int correctPlace = high;
+                while(low <= high) {
+                    int mid = low + (high - low) / 2;
+                    if(ans[mid] >= nums[i]) {
+                        correctPlace = mid;
+                        high = mid-1;
+                    } else {
+                        low = mid + 1;
+                    }
+                }
+                cout <<"correctPlace =" << correctPlace << endl;
+                cout << "\n";
+                ans[correctPlace] = nums[i];
+            }
+        }
+        cout << "\n";
+        for(auto x : ans) {
+            cout << x << ",";
+        }
+        return ans.size();
     }
 };
