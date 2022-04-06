@@ -9,11 +9,7 @@ public:
     int maxEnvelopes(vector<vector<int>>& intervals) {
         int n = intervals.size();
         sort(intervals.begin(), intervals.end(), comparefn);
-        for(auto x : intervals) {
-            cout << x[0] << "," << x[1] << endl;
-        }
         vector<int> dp;
-        
         for(int i=0;i<n;i++) {
            auto itr = lower_bound(dp.begin(),dp.end(),intervals[i][1]);
             if(itr == dp.end()) {
@@ -25,5 +21,3 @@ public:
         return dp.size();
     }
 };
-
-// [[30,50],[12,2],[3,4],[12,15]]
