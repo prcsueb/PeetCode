@@ -1,15 +1,14 @@
 class Solution {
 public:
+    static bool comparefn(vector<int> &a, vector<int> &b)
+    {
+        if(a[0] == b[0])
+            return a[1] > b[1];
+        return a[0] < b[0];
+    }
     int maxEnvelopes(vector<vector<int>>& intervals) {
         int n = intervals.size();
-        
-        sort(intervals.begin(), intervals.end(), [](auto const &l, auto const &r) {
-            if(l[0] == r[0]) {
-                return l[1] > r[1];
-            }
-            return l[0] < r[0];
-        });
-        
+        sort(intervals.begin(), intervals.end(), comparefn);
         vector<int> dp;
         
         for(int i=0;i<n;i++) {
