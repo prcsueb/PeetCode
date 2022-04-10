@@ -6,7 +6,7 @@ public:
         if(n == 1) return 1;
         
         int ans = 0;
-        set<char> st;
+        unordered_set<char> st;
         for(int i=0;i<n;i++) {
             auto it = st.find(s[i]);
             if(it == st.end()) {
