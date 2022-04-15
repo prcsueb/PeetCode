@@ -1,18 +1,16 @@
 class Solution {
 public:
-    int helper(vector<int>& nums, int idx, vector<int> &dp) {
-        if(idx >= nums.size()) {
-            return 0;
-        }
-        if(dp[idx] != -1) {
-            return dp[idx];
-        }
-        int case1 = helper(nums, idx+1, dp);
-        int case2 = helper(nums, idx+2, dp) + nums[idx];
-        return dp[idx] = max(case1, case2);
-    }
     int rob(vector<int>& nums) {
-        vector<int> dp(nums.size(), -1);
-        return helper(nums, 0, dp);
+        int n = nums.size();
+        if(n == 1) return nums[0];
+        int skip = 0;
+        int prevSkip;
+        int took = nums[0];
+        for(int i=1;i<n;i++) {
+            prevSkip = skip;
+            skip = max(skip, took);
+            took = nums[i] + prevSkip;
+        }
+        return max(skip, took);
     }
 };
