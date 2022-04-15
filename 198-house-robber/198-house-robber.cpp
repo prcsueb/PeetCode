@@ -12,7 +12,7 @@ public:
         return dp[idx] = max(case1, case2);
     }
     int rob(vector<int>& nums) {
-        vector<int> dp(100, -1);
+        vector<int> dp(nums.size(), -1);
         return helper(nums, 0, dp);
     }
 };
