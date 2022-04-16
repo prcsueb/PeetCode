@@ -1,40 +1,39 @@
 class Solution {
 public:
     vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
-        int m=mat.size();
-        int n=mat[0].size();
-        vector<int> ans;
-        int row=0,col=0;
-        bool up=true;
-        while(row<m && col<n) {
-            if(up == true) {
-                while(row>0 && col<n-1) {
-                    ans.push_back(mat[row][col]);
-                    row--;
-                    col++;
-                }
-                ans.push_back(mat[row][col]);
-                if(col == n-1) {
+        int row=0;
+        int col=0;
+        int n=mat.size();
+        int m=mat[0].size();
+        int dir=1;
+        vector<int> v;
+        while(row<n && col<m) {
+            if(dir==1) {
+                v.push_back(mat[row][col]);
+                if(col==m-1) {
+                    dir=-1;
                     row++;
-                } else {
+                } else if(row==0) {
+                    dir=-1;
                     col++;
+                } else {
+                    row--; col++;
                 }
-                up = false;
             } else {
-                while(row<m-1 && col>0) {
-                    ans.push_back(mat[row][col]);
-                    row++;
-                    col--;
-                }
-                ans.push_back(mat[row][col]);
-                if(row == m-1) {
+                v.push_back(mat[row][col]);
+                if(row==n-1) {
+                    dir=1;
                     col++;
-                } else {
-                    row++;
                 }
-                up = true;
+                else if(col==0) {
+                    dir=1;
+                    row++;
+                } else {
+                    row++; col--;
+                }
             }
         }
-        return ans;
+        cout << row << " , " << col << endl;
+        return v;
     }
 };
