@@ -9,19 +9,8 @@ public:
             if(nums[i] > last) {
                 ans.push_back(nums[i]);
             } else {
-                int low = 0;
-                int high = ans.size() - 1;
-                int correctPlace = high;
-                while(low <= high) {
-                    int mid = low + (high - low) / 2;
-                    if(ans[mid] >= nums[i]) {
-                        correctPlace = mid;
-                        high = mid-1;
-                    } else {
-                        low = mid + 1;
-                    }
-                }
-                ans[correctPlace] = nums[i];
+                auto it = lower_bound(ans.begin(),ans.end(),nums[i]);
+                ans[it-ans.begin()] = nums[i];
             }
         }
         return ans.size();
