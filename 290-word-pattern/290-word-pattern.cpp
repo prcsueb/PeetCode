@@ -1,35 +1,30 @@
 class Solution {
 public:
     bool wordPattern(string pattern, string s) {
-        istringstream strs(s);
+        map<char,string> c2s;
+        map<string,char> s2c;
         string word;
-        
-        map<char,string> p2s;
-        map<string,char> s2p;
-        
-        int i = 0;
-        int n = pattern.length();
-        
-        for(; strs >> word; i++) {
-            char che = pattern[i];
-            string st = word;
-            if(p2s.find(che) != p2s.end()) {
-                if(p2s[che] != st) {
+        istringstream strs(s);
+        int i=0;
+        for(;strs >> word;i++) {
+            char chFirst = pattern[i];
+            string wdFirst = word;
+            if(c2s.find(chFirst) != c2s.end()) {
+                if(c2s[chFirst] != wdFirst) {
                     return false;
                 }
             } else {
-                p2s[che] = st;
+                c2s[chFirst] = wdFirst;
             }
             
-            if(s2p.find(st) != s2p.end()) {
-                if(s2p[st] != che) {
+            if(s2c.find(wdFirst) != s2c.end()) {
+                if(s2c[wdFirst] != chFirst) {
                     return false;
                 }
             } else {
-                s2p[st] = che;
+                s2c[wdFirst] = chFirst;
             }
         }
-        
-        return i == n;
+        return i == pattern.length();
     }
 };
