@@ -1,72 +1,79 @@
 class LRUCache {
 public:
-    class Node {
+    class Node{
         public:
-        int key, value;
-        Node *prev, *next;
+        int key;
+        int val;
+        Node *prev;
+        Node *next;
         Node(int key, int val) {
-            this->key = key;
-            this->value = val;
+            this->key=key;
+            this->val=val;
         }
     };
     
-    unordered_map<int, Node*> cache;
-    int cap;
     Node *head = new Node(-1,-1);
     Node *tail = new Node(-1,-1);
+    unordered_map<int, Node*> mp;
+    int cap;
     
-    void addFirst(Node *node) {
-        Node *nei = head->next;
-        node->next = nei;
-        node->prev=head;
-        nei->prev = node;
-        head->next = node;
+    LRUCache(int capacity) {
+        cap = capacity;
+        head->next=tail;
+        tail->prev=head;
     }
     
-    void removeNode(Node *node) {
+    void remove(Node *node) {
         Node *prevNei = node->prev;
         Node *nextNei = node->next;
         prevNei->next = nextNei;
         nextNei->prev = prevNei;
-        node->prev=node->next=NULL;
+        node->next = NULL;
+        node->prev = NULL;      
     }
     
-    void moveToFront(Node *node) {
-        removeNode(node);
-        addFirst(node);
+    void addFront(Node *node) {
+        Node *headsNext = head->next;
+        head->next=node;
+        node->prev=head;
+        node->next=headsNext;
+        headsNext->prev=node;
     }
     
-    LRUCache(int capacity) {
-        cap = capacity;
-        head->next = tail;
-        tail->prev = head;
+    void update(Node *node) {
+        remove(node);
+        addFront(node);
     }
     
     int get(int key) {
-        if(cache.find(key) != cache.end()) {
-            moveToFront(cache[key]);
-            return cache[key]->value;
-        } else {
+        if(mp.find(key) == mp.end()) {
             return -1;
+        } else {
+            update(mp[key]);
+            return mp[key]->val;
         }
     }
     
     void put(int key, int value) {
-        //check if it's already in the map or not
-        if(cache.find(key) == cache.end()) {
-            //can't found key
-            Node *newNode = new Node(key, value);
-            if(cache.size() == cap) {
-                Node *LRU_node = tail->prev;
-                removeNode(LRU_node);
-                cache.erase(cache.find(LRU_node->key));
-            } 
-            cache[key]=newNode;
-            addFirst(newNode);
+        //if key already in map update it
+        //else insert
+        if(mp.find(key) != mp.end()) {
+            Node *oldNode = mp[key];
+            oldNode->val = value;
+            update(oldNode);
         } else {
-            //found key
-            cache[key]->value = value;
-            moveToFront(cache[key]);
+            Node *newNode = new Node(key,value);
+            //check if capacity full
+            if(cap == mp.size()) {
+                mp.erase(tail->prev->key);
+                remove(tail->prev);
+                addFront(newNode);
+                mp[key] = newNode;
+            } else {
+                mp[key] = newNode;
+                addFront(newNode);
+            }
+            
         }
     }
 };
