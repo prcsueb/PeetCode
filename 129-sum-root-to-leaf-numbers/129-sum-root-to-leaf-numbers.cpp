@@ -26,7 +26,6 @@ public:
         int sum= 0;
         helper(root, 0);
         for(auto &x:list) {
-            cout << x << " , ";
             sum+=x;
         }
         return sum;
