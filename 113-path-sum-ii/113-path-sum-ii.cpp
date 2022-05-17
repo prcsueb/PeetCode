@@ -11,27 +11,21 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int targetSum, vector<int> list, vector<vector<int>> &ans,int sum) {
-        if(root==NULL) {
+    vector<vector<int>> list;
+    void helper(TreeNode *root, int sum, int target, vector<int> rootToLeafPath) {
+        if(root==NULL) return;
+        if(!root->left && !root->right && sum+root->val == target) {
+            rootToLeafPath.push_back(root->val);
+            list.push_back(rootToLeafPath);
             return;
         }
-        
-        list.push_back(root->val);
-        
-        if(root->left == NULL && root->right == NULL && targetSum == sum+root->val) {
-            cout << sum << endl;
-            ans.push_back(list);
-            return;
-        }
-        
-        helper(root->left,targetSum,list,ans,sum+root->val);
-        helper(root->right,targetSum,list,ans,sum+root->val);
-        return;
+        rootToLeafPath.push_back(root->val);
+        helper(root->left,sum+root->val,target,rootToLeafPath);
+        helper(root->right,sum+root->val,target,rootToLeafPath);
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<vector<int>> ans;
-        vector<int> list;
-        helper(root,targetSum,list,ans,0);
-        return ans;
+        vector<int> rootToPath;
+        helper(root, 0, targetSum, rootToPath);
+        return list;
     }
 };
