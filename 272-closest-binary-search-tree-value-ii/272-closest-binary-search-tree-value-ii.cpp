@@ -38,7 +38,6 @@ public:
     };
     vector<int> closestKValues(TreeNode* root, double target, int k) {
         helper(root);
-        sort(allVals.begin(), allVals.end());
         priority_queue<Node, vector<Node>, Compare> pq;
         for(auto &x:allVals) {
             pq.push(Node(abs(x-target), x));
