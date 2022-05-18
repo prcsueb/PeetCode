@@ -39,10 +39,6 @@ public:
     vector<int> closestKValues(TreeNode* root, double target, int k) {
         helper(root);
         sort(allVals.begin(), allVals.end());
-        for(auto &x:allVals) {
-            cout << x << " , ";
-        }
-        cout << "\n";
         priority_queue<Node, vector<Node>, Compare> pq;
         for(auto &x:allVals) {
             pq.push(Node(abs(x-target), x));
