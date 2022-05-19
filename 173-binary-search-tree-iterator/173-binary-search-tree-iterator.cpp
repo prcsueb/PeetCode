@@ -11,28 +11,40 @@
  */
 class BSTIterator {
 public:
-    stack<TreeNode*> s;
-    BSTIterator(TreeNode* root) {
-        addAllLeft(root);
-    }
+    stack<TreeNode*> stk;
     
-    void addAllLeft(TreeNode* node) {
-        while(node != NULL) {
-            s.push(node);
-            node = node->left;
+    void insertLeft() {
+        TreeNode *top = stk.top();
+        while(top->left != NULL) {
+            top=top->left;
+            stk.push(top);
         }
     }
     
+    BSTIterator(TreeNode* root) {
+        stk.push(root);
+        insertLeft();
+    }
+    
     int next() {
-        // add all left child of right node
-        TreeNode *top = s.top();
-        s.pop();
-        addAllLeft(top->right);
-        return top->val;
+        int nextVal = 0;
+        if(hasNext()) {
+            TreeNode *top = stk.top();
+            stk.pop();
+            nextVal = top->val;
+            if(top->right) {
+                stk.push(top->right);
+                insertLeft();
+            }
+        } else {
+            stk.pop();
+            nextVal = -1;
+        }
+        return nextVal;
     }
     
     bool hasNext() {
-        return s.size() == 0 ? false : true;
+        return stk.size()>0?true:false;
     }
 };
 
