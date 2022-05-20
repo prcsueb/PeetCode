@@ -1,57 +1,57 @@
 class Trie {
 public:
     class TrieNode {
-        public:
-        char ch;
-        TrieNode* children[26] = {nullptr};
-        bool isWord;
-        TrieNode(char ch) {
-            this->isWord = false;
-            this->ch=ch;
-        }
+    public:
+        TrieNode *child[26];
+        bool isEnd;
+        TrieNode() {
+            for(int i=0;i<26;i++) {
+                this->child[i]=NULL;
+            }
+            isEnd=false;
+        } 
     };
-    
-    TrieNode *root;
-    
     Trie() {
-        root = new TrieNode(' ');
+        root = new TrieNode();
     }
     
     void insert(string word) {
-        TrieNode *ptr = root;
+        TrieNode *curr = root;
         for(int i=0;i<word.length();i++) {
-            char ch = word[i];
-            if(ptr->children[ch-'a'] == NULL) {
-                ptr->children[ch-'a'] = new TrieNode(ch);
+            char c = word[i];
+            if(curr->child[c-'a'] == NULL) {
+                curr->child[c-'a'] = new TrieNode();
             }
-            ptr = ptr->children[ch-'a'];
+            curr = curr->child[c-'a'];
         }
-        ptr->isWord = true;
+        curr->isEnd=true;
     }
     
     bool search(string word) {
-        TrieNode *ptr = root;
+        TrieNode *curr = root;
         for(int i=0;i<word.length();i++) {
-            char ch = word[i];
-            if(ptr->children[ch-'a']==NULL) {
+            if(curr->child[word[i] - 'a'] == NULL) {
                 return false;
+            } else {
+                curr = curr->child[word[i]-'a'];
             }
-            ptr=ptr->children[ch-'a'];
         }
-        return (ptr->isWord);
+        return curr->isEnd;
     }
     
     bool startsWith(string prefix) {
-        TrieNode *ptr = root;
+        TrieNode *curr = root;
         for(int i=0;i<prefix.length();i++) {
-            char ch = prefix[i];
-            if(ptr->children[ch-'a']==NULL) {
+            if(curr->child[prefix[i] - 'a'] == NULL) {
                 return false;
+            } else {
+                curr = curr->child[prefix[i]-'a'];
             }
-            ptr=ptr->children[ch-'a'];
         }
         return true;
     }
+    private:
+        TrieNode *root = NULL;
 };
 
 /**
@@ -61,13 +61,3 @@ public:
  * bool param_2 = obj->search(word);
  * bool param_3 = obj->startsWith(prefix);
  */
-
-
-
-
-
-
-
-
-
-
