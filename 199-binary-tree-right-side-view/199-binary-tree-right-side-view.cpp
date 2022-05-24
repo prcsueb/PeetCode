@@ -11,21 +11,32 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int lvl, vector<int> &ans) {
-        if(root == NULL) {
-            return;
+    void helper(TreeNode* root, vector<int> &ans) {
+        if(root==NULL) return;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()) {
+            int size = q.size();
+            bool isFront = true;
+            while(size--) {
+                TreeNode *front = q.front();
+                if(isFront) {
+                    ans.push_back(front->val);
+                    isFront=false;
+                }
+                if(front->right) {
+                    q.push(front->right);
+                }
+                if(front->left) {
+                    q.push(front->left);
+                }
+                q.pop();
+            }
         }
-        
-        if(lvl == ans.size()) {
-            ans.push_back(root->val);
-        }
-        
-        helper(root->right, lvl+1, ans);
-        helper(root->left, lvl+1, ans);
     }
     vector<int> rightSideView(TreeNode* root) {
         vector<int> ans;
-        helper(root, 0, ans);
+        helper(root, ans);
         return ans;
     }
 };
