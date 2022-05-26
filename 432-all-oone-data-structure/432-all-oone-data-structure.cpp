@@ -7,8 +7,6 @@ public:
         unordered_set<string> keys;
         Node *prev = NULL;
         Node *next = NULL;
-        unordered_set<string> ::iterator start = keys.begin();
-        unordered_set<string> ::iterator end = keys.end();
         Node(int f) {
             freq = f;
         }
