@@ -1,6 +1,6 @@
 class Solution {
 public:
-    string removeMultipleStars(string p) {
+    string removeMultipleStars(string &p) {
         if(p.length()==0) return p;
         string ans="";
         ans += p[0];
