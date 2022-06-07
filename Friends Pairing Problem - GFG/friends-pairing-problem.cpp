@@ -10,7 +10,7 @@ public:
         if(n == 0) return 1;
         if(dp[n] != -1) return dp[n];
         long ans = helper(n-1, dp) + helper(n-2, dp) * (n-1);
-        return dp[n] = (int)(ans % (int)(1e9+7));
+        return dp[n] = (ans % (int)(1e9+7));
     }
     long countFriendsPairings(int n) 
     { 
